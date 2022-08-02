@@ -1,19 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {CreateUserDto} from "./dto/create-user.dto";
+import {UpdateUserDto} from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
     private users = [];
 
-    getAll(){
+    getAll() {
         return this.users;
     }
 
-    getById(id: string){
-        return this.users.find((user)=> user.id == id);
+    getById(id: string) {
+        return this.users.find((user) => user.id == id);
     }
 
-    create(user: CreateUserDto){
+    create(user: CreateUserDto) {
         this.users.push({
             ...user,
             id: new Date().valueOf()
@@ -21,12 +22,22 @@ export class UserService {
         return user;
     }
 
-    update(updateUserFields){
-        let userToUpdate = this.users.find((user) => user.id = updateUserFields.id);
-        userToUpdate = {...userToUpdate, ...updateUserFields};
+    update(id: string, updateUserFields: UpdateUserDto) {
+        this.users.find((user) => {
+            console.log('found user');
+            console.log(user.id);
+            console.log(id);
+            if (user.id === id) {
+                user = {...updateUserFields}
+                console.log(user);
+            }
+        });
+
+        return this.users;
     }
 
-    delete(id: string){
-
+    delete(id: string) {
+        const deletedUser = this.users.filter((user) => user.id !== id);
+        return deletedUser;
     }
 }
