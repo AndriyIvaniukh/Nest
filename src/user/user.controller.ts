@@ -2,6 +2,7 @@ import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common'
 import {UserService} from "./user.service";
 import {CreateUserDto} from "./dto/create-user.dto";
 import {UpdateUserDto} from "./dto/update-user.dto";
+import {Prisma} from "@prisma/client";
 
 @Controller('users')
 export class UserController {
@@ -20,7 +21,7 @@ export class UserController {
     }
 
     @Post()
-    createUser(@Body() user: CreateUserDto) {
+    createUser(@Body() user: Prisma.UserCreateInput) {
         return this.userService.create(user);
     }
 
