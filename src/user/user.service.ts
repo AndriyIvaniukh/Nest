@@ -23,13 +23,11 @@ export class UserService {
     }
 
     update(id: string, updateUserFields: UpdateUserDto) {
-        this.users.find((user) => {
-            console.log('found user');
-            console.log(user.id);
-            console.log(id);
-            if (user.id === id) {
-                user = {...updateUserFields}
+        this.users = this.users.map(user => {
+            if (user.id == id) {
+                user = {...user, ...updateUserFields}
                 console.log(user);
+                return user;
             }
         });
 
@@ -37,7 +35,7 @@ export class UserService {
     }
 
     delete(id: string) {
-        const deletedUser = this.users.filter((user) => user.id !== id);
-        return deletedUser;
+        this.users = this.users.filter((user) => user.id !== Number(id));
+        return `delete user with id ${id}`;
     }
 }

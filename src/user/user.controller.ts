@@ -15,7 +15,7 @@ export class UserController {
     }
 
     @Get('/:id')
-    getUserById(@Param() id: string) {
+    getUserById(@Param('id') id: string) {
         return this.userService.getById(id);
     }
 
@@ -25,12 +25,12 @@ export class UserController {
     }
 
     @Patch('/:id')
-    updateUser(@Param() id: string, @Body() user: UpdateUserDto) {
+    updateUser(@Param('id') id: string, @Body() user: UpdateUserDto) {
         return this.userService.update(id, user);
     }
 
     @Delete('/:id')
-    deleteUser(@Param() id: string) {
+    deleteUser(@Param('id') id: string) {
         return this.userService.delete(id);
     }
 }
