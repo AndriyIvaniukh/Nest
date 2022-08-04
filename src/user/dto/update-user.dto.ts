@@ -1,8 +1,9 @@
-import {IsBoolean, IsInt, IsNumber, IsOptional, IsString, Max, Min} from "class-validator";
+import {IsBoolean, IsInt, IsNumber, IsOptional, IsString, Length, Max, Min} from "class-validator";
 
 export class UpdateUserDto {
     @IsOptional()
     @IsString()
+    @Length(2,45)
     public userName?: string;
 
     @IsOptional()
