@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "66592947-0904-4a99-ba94-e20576eba7db",
+		"name": "NestJS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21079065"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"Andriy\",\r\n    \"email\": \"andriy@gmail.com\",\r\n    \"password\": \"1234qwer-\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{NESTHOST}}auth/register",
+							"host": [
+								"{{NESTHOST}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andriy1@gmail.com\",\r\n    \"password\": \"1234qwer-\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{NESTHOST}}auth/login",
+							"host": [
+								"{{NESTHOST}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{NESTHOST}}users",
+					"host": [
+						"{{NESTHOST}}users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{NESTHOST}}users/:id",
+					"host": [
+						"{{NESTHOST}}users"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Taras\",\r\n    \"email\": \"a.ddfs@gmail.com\",\r\n    \"age\": 23,\r\n    \"status\": true,\r\n    \"password\": \"2134rfca\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{NESTHOST}}users",
+					"host": [
+						"{{NESTHOST}}users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserByID",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Ira\",\r\n    \"age\": 23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{NESTHOST}}users/:id",
+					"host": [
+						"{{NESTHOST}}users"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "62ea750a85c8874b9e186cc2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

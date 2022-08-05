@@ -19,4 +19,13 @@ model User {
   password String
   createAt DateTime @default(now()) @db.Timestamp()
   updateAt DateTime @default(now()) @db.Timestamp()
+  Auth     Auth[]
+}
+
+model Auth {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  token    String
+  createAt DateTime @default(now()) @db.Timestamp()
 }

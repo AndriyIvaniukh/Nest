@@ -10,18 +10,22 @@ import * as bcrypt from 'bcrypt';
 import {User} from '@prisma/client';
 import {UserService} from "../user/user.service";
 import {JwtService} from "@nestjs/jwt";
+import {PrismaService} from "../core/prisma.service";
 
 @Injectable()
 export class AuthService {
     constructor(
         private jwtService: JwtService,
         private userService: UserService,
+        private prismaService: PrismaService,
     ) {
     }
 
     async login(data: LoginAuthDto) {
         const user = await this.validateUser(data);
-        return this.generateToken(user);
+        const token = await this.generateToken(user)
+        await this.writeTokenToDB(user, token);
+        return token;
     }
 
     async register(data: RegisterAuthDto) {
@@ -39,8 +43,11 @@ export class AuthService {
 
     private async validateUser(user: LoginAuthDto) {
         const userDb = await this.userService.getUserByEmail(user.email);
+        if (!userDb) {
+            throw new UnauthorizedException({message: 'wrong email or password'})
+        }
         const passEqual = await bcrypt.compare(user.password, userDb.password);
-        if (userDb && passEqual) {
+        if (passEqual) {
             return userDb;
         }
         throw new UnauthorizedException({message: 'wrong email or password'});
@@ -49,7 +56,20 @@ export class AuthService {
     private async generateToken(user: User) {
         const payload = {email: user.email, name: user.userName, id: user.id};
         return {
-            token: this.jwtService.sign(payload, {secret: 'asdaf'}),
+            token: this.jwtService.sign(payload, {privateKey: 'secret'})
         };
+    }
+
+    private async writeTokenToDB(user: User, token) {
+        const data = this.prismaService.auth.create({
+            data: {
+                userId: user.id,
+                token: token
+            }
+        })
+        console.log("write")
+        if(!data){
+            throw new UnauthorizedException({message:'cant write token to db'})
+        }
     }
 }
