@@ -28,6 +28,11 @@ export class AuthService {
         return token;
     }
 
+    async logout(userId: string){
+        await this.deleteTokenFromDB(userId);
+        return `User with id ${userId}, was logout`;
+    }
+
     async register(data: RegisterAuthDto) {
         const findUser = await this.userService.getUserByEmail(data.email);
         if (findUser) {
@@ -61,15 +66,26 @@ export class AuthService {
     }
 
     private async writeTokenToDB(user: User, token) {
-        const data = this.prismaService.auth.create({
+        const data = await this.prismaService.auth.create({
             data: {
                 userId: user.id,
-                token: token
+                token: token.token
             }
         })
-        console.log("write")
         if(!data){
             throw new UnauthorizedException({message:'cant write token to db'})
+        }
+    }
+
+    private async deleteTokenFromDB(id:string){
+
+        const data = await this.prismaService.auth.deleteMany({
+            where: {
+                userId: id
+            }
+        });
+        if(!data){
+            console.log(`user with id ${id} not found`);
         }
     }
 }
